@@ -1,0 +1,45 @@
+<h1> Advanced Routing with Centos8</h1>
+
+In this toturial we are going to create a wide area network betwen three data centers
+at diffirent physical locations.
+
+<h2>Scenario</h2>
+A startup or enthusiastic organization with more than one virtual Data Centers is 
+in need to interconnect the networks and enable direct access between the nodes.
+The virtual machine instances are spread across multiple virtual networks in each
+of the data centers.
+
+<h2>Assumptions</h2>
+<ul>
+<li> esxi visualization platform, utilizing free esxi hypervisior from VMware 
+<li> All the concepts would fully apply to vCenter / vSphere based installations
+<li> Each of the networks has a mixture of the Windows and Linux nodes
+<li> DHCP and DNS services (if not already present) would be provided by routers
+</ul>
+
+<h2>Prerequisites</h2>
+<ol>
+<li> VMware esxi servers or Hyper-V housing the VM instances at each location
+<li> Existing VM instances to interconnect (LANs and WAN)
+</ol>
+
+<h2>Implenemtation Plan</h2>
+<h3>Steps</h3>
+<ol>
+<li> Build and configure Virtual Network Router at each Data Center
+<li> Connect the Virtual Router to all the Virtual Networks and configure proper
+local rouring
+<li> Install a central routing hub
+<li> Congigure VPN service at the Central routing hub
+<li> Configure VPN service at each Data Center to connect to the entral routing hub
+<li> Configure routes at the central routing hub to correctly deliver IP traffic
+</ol>
+
+<h3>Operatung Systems</h3>
+
+<table>
+<tr><td>**Virtual Routers**</td><td>CentOS 8</td></tr>
+<tr><td>**Nodes**</td><td>Windows Server 2019<br/>  Ubuntu Linux</td></tr>
+<tr><td>**Central Routing hub**</td><td>CentOS 8</td></tr>
+</table>
+

@@ -118,7 +118,7 @@ changes to primary listener. The `listens only on localhost` statement from the 
 [Installation tips and issues](#Installation-tips-and-issues) no longer apply, which is a good thing.
 
 ### Validate connectivity
-Open a web browser (don't us IE, install [Brave](https://brave.com/) or Chrome or Firefox instead),\
+Open a web browser (don't use IE, install [Brave](https://brave.com/) or Chrome or Firefox instead),\
 and navigate to [http://127.0.0.1:5000](http://127.0.0.1:5000). If you see a page (sample below), \
 then you have successfully started the baget server.\
 ![Browser Sample Output](./brave_jBMcdjYHCk.png)
@@ -130,18 +130,18 @@ After validating that baget is running and happy, terminate the process by press
 Download NSSM from [https://nssm.cc/](https://nssm.cc/), save the file to the Downloads folder\
 on the server.\
 Open the archive and extract `nssm.exe` file from `win64` directory. If your server is 32 bit \
-edition of windows, then extract `nssm.exe` from `win32` directory. In either case,
-you are going to end up with one file extracted to your downloads folder.\
+edition of windows, then extract `nssm.exe` from `win32` directory. In either case, you are\
+going to end up with one file extracted to your downloads folder.\
 **NOTE**: Windows Server 2012R2 is available in 64 bit edition only.\
 Now open elevated command line (cmd.exe run as Administrator), change directory to\
 your downloads (or whereever you have extracted `nssm.exe`) and copy the nssm.exe file\
-to `c:\windows\system32`.\
+to `c:\windows\system32`.
 ```ps
 cd %userprofile%\downloads
 copy nssm.exe c:\windows\system32\
 ```
 At this point we have all the bits and peases in place, and we are ready to enable \
-baget as system service. \
+baget as system service.
 
 **IMPORTANT**: be sure that nssm.exe was copied to `c:\windows\system32`, and your baget\
 directory is `E:\baget`.\

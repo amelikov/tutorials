@@ -55,12 +55,13 @@ This method is good enough to get started, however, some of the consuming applic
 and development tools may have an issue with the unsecured `http` connection.
 
 ### Method 2
-This is what we are go with -- Local reverse proxy that would listen on ports 80 (http), \
+This is what we are going to go with - Local reverse proxy that would listen on ports 80 (http), \
 and 443 (https). \
 To get this going, we will install NGINx on the server, and use it to reverse-proxy our \
 IP traffic from LAN to the local instance of `baget` service.
 
 ## Installation plan
+1. Download and install .NET core
 1. Download and Install `baget` service binary files
 1. Run `baget` and test the service sanity
 1. Make `baget` to run as the system service. \

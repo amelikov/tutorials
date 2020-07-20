@@ -21,3 +21,19 @@ of the data centers.
 1. Existing VM instances to interconnect (LANs and WAN)
 
 ## Implenemtation Plan
+### Steps
+1. Build and configure Virtual Network Router at each Data Center
+1. Connect the Virtual Router to all the Virtual Networks and configure proper
+local rouring
+1. Install a central routing hub
+1. Congigure VPN service at the Central routing hub
+1. Configure VPN service at each Data Center to connect to the entral routing hub
+1. Configure routes at the central routing hub to correctly deliver IP traffic
+
+### Operatung Systems
+
+Role| OS
+:--- |:---
+|Virtual Routers    | CentOS 8 |
+|Nodes              | Windows Server 2019<br/>  Ubuntu Linux |
+|Central Routing hub| CentOS 8 |

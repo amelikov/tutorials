@@ -163,7 +163,7 @@ You can make change to the service description to easily identify it later.\
 If you made changes on any of the tabs, click [**Edit Service**] button to apply.
 
 When everything looks okay, run `services.msc`, find `BaGet` service, and start it.\
-The service status should change to `running`.\
+The service status should change to `running`.
 
 ### Validate service
 To validate the service is up and running, use the same method as you did when\

@@ -209,7 +209,167 @@ NGINx configuration and make it act as a reverse proxy to our baget service.
 First thing we need to do is create an ssl certificate. This certificate has to be trusted\
 on the client machines that would access out nuget server.
 
-There are number of ways to create a self-signed certifiacate, as well as obtaining a\
+There are number of ways to create a self-signed certificate, as well as obtaining a\
 real certificate from well-known Certification Authorities, and locally managed CAs.
+
+In this tutorial, I have generated certificate from a local CA that corresponds to the\
+host name and IP address (SAN certificate). The porcess of issuing certitate is outside\
+of this tutorail scope, however, to give you a kickstart, the commands below will get\
+you started:
+
+##### Find out your server host name and domain name - open cmd.exe and execute:
+```ps
+ipconfig /all
+```
+the output would something like:
+```ps
+Windows IP Configuration
+
+   Host Name . . . . . . . . . . . . : baget-lab-svr
+   Primary Dns Suffix  . . . . . . . : localdomain
+   Node Type . . . . . . . . . . . . : Hybrid
+   IP Routing Enabled. . . . . . . . : No
+   WINS Proxy Enabled. . . . . . . . : No
+   DNS Suffix Search List. . . . . . : 
+   . . .
+   IPv4 Address. . . . . . . . . . . : 192.168.1.50(Preferred)
+```
+we are interested in 2 lines here: `Host Name` and `Primary DNS Suffix`. These would\
+have to be part of your new cretificate. Note also text in line `IPv4 Address`.\
+We would need all three of these values.
+
+##### Download and install OpenSSL for Windows
+OpenSSL for windows requires Visual C++ 2017 runtime.\
+Downlaod and install VC 2017 runtime from: [Microsoft direct link](https://download.visualstudio.microsoft.com/download/pr/4100b84d-1b4d-487d-9f89-1354a7138c8f/5B0CBB977F2F5253B1EBE5C9D30EDBDA35DBD68FB70DE7AF5FAAC6423DB575B5/VC_redist.x64.exe)
+
+Prebuilt OpenSSL for Windows binaries available free at [Shining Light Productions](https://slproweb.com/products/Win32OpenSSL.html) website.\
+Download and run 64 bit version installer: [direct link to MSI](https://slproweb.com/download/Win64OpenSSL_Light-1_1_1g.msi)
+
+During the installation, the wizard will prompt where to place OpenSSL library files.\
+Since we are not going to perform any SSL development tasks on this server, select\
+`Open SSL Binaries (/bin) Directory` as shown below:
+![3](./images/vmrc_7TA7fnXThL.png)\
+and let the wizard finish installation.
+
+##### Add OpenSSL direcotry to system paths
+Now we need to add `C:\Program Files\OpenSSL-Win64\bin` to System Path. This very easy\
+to do - from elevated command prompt execute:
+```ps
+rundll32 sysdm.cpl,EditEnvironmentVariables
+```
+which will bring the Environment Variables dialog. What we need to do now is edit the\
+Path under System Variables, append ";" and `C:\Program Files\OpenSSL-Win64\bin` to the\
+end of it:\
+![4](./images/vmrc_lTHbuyeSbf.png) ![5](./images/vmrc_M1k9JVA4QA.png)
+
+Now we have all the tools we need to create a self-signed certificate. Let's get one\
+created. We would need three elements captured earlier. These elements are `Host Name`,\
+`Primary DNS Suffix`, and `IPv4 Address`.
+
+##### Generate self-signed certificate
+Replace *shost*, *sdomain*, and *sip* in the **set** commands below with values captured from \
+`ipconfig /all` command (use notepad to copy paste and edit the commands), then open \
+elevated command prompt, navigate to `C:\Program Files\nginx\conf` and paste/execute commands:
+```ps
+cd "C:\Program Files\nginx\conf"
+set shost="mybaget"
+set sdomain="mydomain.lan"
+set sip="192.168.1.199"
+set sfqdn="%shost%.%sdomain%"
+openssl req -x509 -nodes -days 3650 ^
+ -subj "/CN=%sfqdn%" ^
+ -addext "subjectAltName = DNS.1:%shost%,DNS.2:%sfqdn%,IP.1:127.0.0.1,IP.2:%sip%" ^
+ -addext "extendedKeyUsage = serverAuth" ^
+ -newkey rsa:2048 -keyout cert.key -out cert.pem
+```
+That's it - you now have a self-signed certificate ready for the NGINx service.\
+We are almost there. The last thing we need to do is to change NGINx config file \
+that would enable the reverse proxy function.
+
+Open Windows Explorer, navigate to `C:\Program Files\nginx\conf` directory. You will \
+see a file with name `nginx.conf` - that's the file we need to edit.\
+You may want to back this file up somewhere for future reference. Open the file in\
+Notepad or Notepad++ (do not use wordpad!), delete the content of it and paste the\
+following into it:
+```nginx
+#user  nobody;
+worker_processes  1;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+	include       mime.types;
+	default_type  application/octet-stream;
+
+	#log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+	#                  '$status $body_bytes_sent "$http_referer" '
+	#                  '"$http_user_agent" "$http_x_forwarded_for"';
+
+	#access_log  logs/access.log  main;
+
+	sendfile        on;
+	#tcp_nopush     on;
+
+	#keepalive_timeout  0;
+	keepalive_timeout  65;
+
+	#gzip  on;
+
+	server {
+		listen 80;
+		server_name _;
+
+		proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header   X-Forwarded-Proto $scheme;
+		proxy_set_header   Host $host;
+
+		location / {
+			proxy_pass http://127.0.0.1:5000;
+		}
+	}
+	
+    server {
+        listen       443 ssl;
+        server_name  _;
+
+        ssl_certificate      cert.pem;
+        ssl_certificate_key  cert.key;
+
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+
+		location / {
+			proxy_pass http://127.0.0.1:5000;
+		}
+    }
+}
+```
+save the file and start NGINx service: run `services.msc`, locate nginx service, click start.
+
+At this point you can try connecting to your NuGet service from any machine on your\
+LAN. There is one more thing you would need to do if you used self-signed certificate.\
+Copy `cert.pem` file we created earlier to the machine where you would run Visual Studio.\
+Again, on the machine that would be accessing NuGet, run `certmgr.msc`, navigate to\
+`Trusted Root Certification Authorities`, expand it, then right-cick `certificates`.\
+In the context menu select `All Tasks` and click `Import`. This will display File Open\
+Dialog. Chnage file type to `All Files (*.*)` then navigate to the directory where you\
+have copied `cetr.pem` file. select it, and complete the import procedure. You can now\
+point your web browser to the `https://ip-of-nuget-machine` and it would show no warnings.\
+If your DNS functioning correctly, you can also use full machine name that you captured\
+from `ipconfig /all` command instead of IP address.
+
 
 

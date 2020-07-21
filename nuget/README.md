@@ -247,7 +247,7 @@ Download and run 64 bit version installer: [direct link to MSI](https://slproweb
 
 During the installation, the wizard will prompt where to place OpenSSL library files.\
 Since we are not going to perform any SSL development tasks on this server, select\
-`Open SSL Binaries (/bin) Directory` as shown below:
+`Open SSL Binaries (/bin) Directory` as shown below:\
 ![3](./images/vmrc_7TA7fnXThL.png)\
 and let the wizard finish installation.
 
@@ -342,6 +342,10 @@ http {
     server {
         listen       443 ssl;
         server_name  _;
+
+		proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header   X-Forwarded-Proto $scheme;
+		proxy_set_header   X-Forwarded-SSL on;
 
         ssl_certificate      cert.pem;
         ssl_certificate_key  cert.key;

@@ -207,7 +207,7 @@ This will create and configure NGINx system service. Don't start it yet. We now 
 NGINx configuration and make it act as a reverse proxy to our baget service.
 
 First thing we need to do is create an ssl certificate. This certificate has to be trusted\
-on the client machines that would access out nuget server.
+on the client machines that would access our nuget server.
 
 There are number of ways to create a self-signed certificate, as well as obtaining a\
 real certificate from well-known Certification Authorities, and locally managed CAs.
@@ -251,13 +251,13 @@ Since we are not going to perform any SSL development tasks on this server, sele
 ![3](./images/vmrc_7TA7fnXThL.png)\
 and let the wizard finish installation.
 
-##### Add OpenSSL direcotry to system paths
+##### Add OpenSSL direcotry to system path
 Now we need to add `C:\Program Files\OpenSSL-Win64\bin` to System Path. This very easy\
 to do - from elevated command prompt execute:
 ```ps
 rundll32 sysdm.cpl,EditEnvironmentVariables
 ```
-which will bring the Environment Variables dialog. What we need to do now is edit the\
+which will bring up the Environment Variables dialog. What we need to do now is edit the\
 Path under System Variables, append ";" and `C:\Program Files\OpenSSL-Win64\bin` to the\
 end of it:\
 ![4](./images/vmrc_lTHbuyeSbf.png) ![5](./images/vmrc_M1k9JVA4QA.png)
@@ -271,10 +271,10 @@ Replace *shost*, *sdomain*, and *sip* in the **set** commands below with values 
 `ipconfig /all` command (use notepad to copy paste and edit the commands), then open \
 elevated command prompt, navigate to `C:\Program Files\nginx\conf` and paste/execute commands:
 ```ps
-cd "C:\Program Files\nginx\conf"
 set shost="mybaget"
 set sdomain="mydomain.lan"
 set sip="192.168.1.199"
+cd "C:\Program Files\nginx\conf"
 set sfqdn="%shost%.%sdomain%"
 openssl req -x509 -nodes -days 3650 ^
  -subj "/CN=%sfqdn%" ^
@@ -284,13 +284,13 @@ openssl req -x509 -nodes -days 3650 ^
 ```
 That's it - you now have a self-signed certificate ready for the NGINx service.\
 We are almost there. The last thing we need to do is to change NGINx config file \
-that would enable the reverse proxy function.
+to enable the reverse proxy function.
 
 Open Windows Explorer, navigate to `C:\Program Files\nginx\conf` directory. You will \
-see a file with name `nginx.conf` - that's the file we need to edit.\
-You may want to back this file up somewhere for future reference. Open the file in\
-Notepad or Notepad++ (do not use wordpad!), delete the content of it and paste the\
-following into it:
+see a file with name `nginx.conf` - that's the file we need to edit. You may want to \
+back this file up somewhere for future reference.\
+Open the file in Notepad or Notepad++ (do not use wordpad!), delete all the content, \
+and paste the following into it:
 ```nginx
 #user  nobody;
 worker_processes  1;
@@ -366,7 +366,7 @@ Again, on the machine that would be accessing NuGet, run `certmgr.msc`, navigate
 `Trusted Root Certification Authorities`, expand it, then right-cick `certificates`.\
 In the context menu select `All Tasks` and click `Import`. This will display File Open\
 Dialog. Chnage file type to `All Files (*.*)` then navigate to the directory where you\
-have copied `cert.pem` file. select it, and complete the import procedure. You can now\
+have copied `cert.pem` file, select it, and complete the import procedure. You can now\
 point your web browser to the `https://ip-of-nuget-machine` and it would show no warnings.\
 If your DNS functioning correctly, you can also use full machine name that you captured\
 from `ipconfig /all` command instead of IP address.

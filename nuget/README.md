@@ -366,7 +366,7 @@ Again, on the machine that would be accessing NuGet, run `certmgr.msc`, navigate
 `Trusted Root Certification Authorities`, expand it, then right-cick `certificates`.\
 In the context menu select `All Tasks` and click `Import`. This will display File Open\
 Dialog. Chnage file type to `All Files (*.*)` then navigate to the directory where you\
-have copied `cetr.pem` file. select it, and complete the import procedure. You can now\
+have copied `cert.pem` file. select it, and complete the import procedure. You can now\
 point your web browser to the `https://ip-of-nuget-machine` and it would show no warnings.\
 If your DNS functioning correctly, you can also use full machine name that you captured\
 from `ipconfig /all` command instead of IP address.

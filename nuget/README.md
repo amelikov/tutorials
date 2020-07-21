@@ -192,7 +192,7 @@ the current Stable release of NGINx for Windows was 1.18 with a download link at
 
 Download the file and extract the contents inot a folder "nginx" under your Downloads.\
 The zip archive contains the directory structure Nginx needs to run. Once extracted, copy\
-the entire directory structure to `c:\Program files\ngingx` directory. You would need to\
+the entire directory structure to `c:\Program files\nginx` directory. You would need to\
 create `c:\Program Files\nginx` directory manually.
 
 At this point, we need to make ngnix to run as Windows system service. We will use nssm\

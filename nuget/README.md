@@ -281,6 +281,7 @@ openssl req -x509 -nodes -days 3650 ^
  -addext "subjectAltName = DNS.1:%shost%,DNS.2:%sfqdn%,IP.1:127.0.0.1,IP.2:%sip%" ^
  -addext "extendedKeyUsage = serverAuth" ^
  -newkey rsa:2048 -keyout cert.key -out cert.pem
+ 
 ```
 That's it - you now have a self-signed certificate ready for the NGINx service.\
 We are almost there. The last thing we need to do is to change NGINx config file \

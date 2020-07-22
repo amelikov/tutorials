@@ -80,8 +80,9 @@ become your NuGet server.
 ### Download and install .NET Core
 Download and install 
 [.NET Core SDK](https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-3.1.302-windows-x64-installer)
-from Microsoft. This is very simple process - grab executable from Microsoft, and run it.
-If it asks for a reboot after installation - let it reboot.
+from Microsoft. This is very simple process - just \
+grab the executable from Microsoft, and run it. If it asks for a reboot after installation \
+let it reboot the server.
 
 ### Download BaGet server
 The BaGet releases are available free at [GitHub BaGet repository](https://github.com/loic-sharma/BaGet/releases/).
@@ -123,13 +124,14 @@ no longer apply, which is a good thing.
 ### Validate connectivity
 Open a web browser (don't use IE, install [Brave](https://brave.com/), Chrome, or Firefox instead), and navigate \
 to [http://127.0.0.1:5000](http://127.0.0.1:5000). If you see a page (sample below), then you have successfully\
-started your BaGet server.\
+started your BaGet server.
+
 ![Browser Sample Output](./images/brave_jBMcdjYHCk.png)
 
 After validating that BaGet is running and happy, terminate the process by pressing \
 [**CTRL**] [**C**] in the command window where you started the BaGet server.
 
-### Make BaGet running as a system service
+### Make BaGet run as a system service
 Download NSSM from [https://nssm.cc/](https://nssm.cc/), save the file to the Downloads folder on your\
 server.\
 Open the archive and extract `nssm.exe` file from `win64` directory. If your server runs 32 bit \
@@ -214,7 +216,7 @@ certificate to `cert.pem`, rename private key to `cert.key` and then copy both f
 to `c:\program files\nginx\conf` directory.
 
 The process of issuing certificate is outside of this tutorial scope, however, to give\
-you a kickstart, the procedure below will get you started:
+you a kickstart, the procedure below will get you going:
 
 ##### Find out your server host name and domain name - open cmd.exe and execute:
 ```ps
@@ -245,7 +247,7 @@ the VC 2017 runtime binaries from: [Microsoft direct link](https://download.visu
 Prebuilt OpenSSL for Windows binaries available free at [Shining Light Productions](https://slproweb.com/products/Win32OpenSSL.html)\
 website. Download and run 64 bit version installer: [direct link to MSI file](https://slproweb.com/download/Win64OpenSSL_Light-1_1_1g.msi)
 
-During the installation, the wizard will prompt where to place OpenSSL library files.\
+During the installation, wizard will prompt where to place OpenSSL library files.\
 Since we are not going to perform any SSL development tasks on this server, select\
 `Open SSL Binaries (/bin) Directory` as shown below:
 

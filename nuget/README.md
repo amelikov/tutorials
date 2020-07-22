@@ -103,6 +103,7 @@ command prompt and execute:
 E:
 cd \Baget
 dotnet BaGet.dll
+
 ```
 The BaGet server will start and you will see output:
 ```
@@ -165,7 +166,7 @@ directory to `E:\baget`. To validate the service was created properly, you can e
 ````ps
 nssm edit baget
 
-````
+```
 from the command prompt to look at (and change if needed) advanced parameters.
 
 ![1](./images/vmrc_g0itsw8DOU.png) ![2](./images/vmrc_Tn6eIjfgId.png)
@@ -228,6 +229,7 @@ you a kickstart, the procedure below will get you going:
 ##### Find out your server host name and domain name - open cmd.exe and execute:
 ```ps
 ipconfig /all
+
 ```
 the output would something like:
 ```ps
@@ -266,6 +268,7 @@ Now we need to add `C:\Program Files\OpenSSL-Win64\bin` to System Path. This ver
 to do - from elevated command prompt execute:
 ```ps
 rundll32 sysdm.cpl,EditEnvironmentVariables
+
 ```
 which will bring up the Environment Variables dialog. What we need to do now is edit the\
 Path under System Variables, append ";" and `C:\Program Files\OpenSSL-Win64\bin` to the\

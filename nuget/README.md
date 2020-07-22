@@ -142,8 +142,9 @@ Now open elevated command prompt (run cmd.exe as Administrator), change director
 To your downloads (or wherever you have extracted `nssm.exe`) and then copy nssm.exe \
 file to `c:\windows\system32`.
 ```ps
-cd %userprofile%\downloads
+pushd %userprofile%\downloads
 copy nssm.exe c:\windows\system32\
+
 ```
 At this point we have all the bits and pieces in place, and we are ready to enable BaGet \
 as system service.
@@ -153,13 +154,16 @@ directory is `E:\baget`.
 
 Open elevated command prompt, and execute these two commands to create BaGet service
 ```ps
+pushd c:\windows\system32
 nssm install BaGet dotnet.exe baget.dll
 nssm set baget AppDirectory E:\Baget
+
 ```
 This will respectively create the system service named BaGet and set the service working \
 directory to `E:\baget`. To validate the service was created properly, you can execute:
 ````ps
 nssm edit baget
+
 ````
 from the command prompt to look at (and change if needed) advanced parameters.
 
@@ -199,8 +203,10 @@ to make it happen.
 
 Open elevated command prompt, end execute the following commands:
 ```ps
+pushd c:\windows\system32
 nssm install NGINx "c:\program files\nginx\nginx.exe"
 nssm set nginx appdirectory "c:\program files\nginx"
+
 ```
 This will create and configure NGINx system service. Don't start it yet. We now need\
 to edit NGINx configuration and make it act as a reverse proxy to our BaGet service.
@@ -270,6 +276,11 @@ Now we have all the tools we need to create a self-signed certificate. We would 
 three elements captured from `ipconfig /all` earlier. These elements are `Host Name`,\
 `Primary DNS Suffix`, and `IPv4 Address`.
 
+**IMPORTANT**: The System Path change ***is not visible*** to already open `cmd.exe` windows.\
+To make sure the next step would work correctly, you would need to close the command \
+line windows and open new instances. This will ensure OpenSSL executable and libraries\
+are available to the command line.
+
 ##### Generate self-signed certificate
 Replace *shost*, *sdomain*, and *sip* in the **set** commands below with values captured from \
 `ipconfig /all` command; use notepad to copy paste and edit the commands, then copy all,\
@@ -278,7 +289,7 @@ open elevated command prompt, navigate to `C:\Program Files\nginx\conf` and past
 set shost="mybaget"
 set sdomain="mydomain.lan"
 set sip="192.168.1.199"
-cd "C:\Program Files\nginx\conf"
+pushd "C:\Program Files\nginx\conf"
 set sfqdn="%shost%.%sdomain%"
 openssl req -x509 -nodes -days 3650 ^
  -subj "/CN=%sfqdn%" ^

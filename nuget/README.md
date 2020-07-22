@@ -163,7 +163,7 @@ nssm set baget AppDirectory E:\Baget
 ```
 This will respectively create the system service named BaGet and set the service working \
 directory to `E:\baget`. To validate the service was created properly, you can execute:
-````ps
+```ps
 nssm edit baget
  
 ```

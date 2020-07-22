@@ -374,7 +374,7 @@ save the file and start NGINx service: run `services.msc`, locate NGINx service,
 
 At this point you can try connecting to your NuGet service from a machine on your LAN.
 
-#### Final touch
+### Final touch
 There is one more thing you would need to do if you issued a self-signed certificate.\
 Copy `cert.pem` file we created earlier to the machine where you would run Visual Studio.\
 Again, on the machine where you would run Visual Studio, run `certmgr.msc`, navigate to\

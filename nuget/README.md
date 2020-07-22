@@ -254,7 +254,7 @@ OpenSSL for windows requires Visual C++ 2017 runtime. Download and install \
 the VC 2017 runtime binaries from: [Microsoft direct link](https://download.visualstudio.microsoft.com/download/pr/4100b84d-1b4d-487d-9f89-1354a7138c8f/5B0CBB977F2F5253B1EBE5C9D30EDBDA35DBD68FB70DE7AF5FAAC6423DB575B5/VC_redist.x64.exe)
 
 Prebuilt OpenSSL for Windows binaries available free at [Shining Light Productions](https://slproweb.com/products/Win32OpenSSL.html)\
-website. Download and run 64 bit version installer: [direct link to MSI file](https://slproweb.com/download/Win64OpenSSL_Light-1_1_1g.msi)
+website. Download and run 64 bit version installer: [direct link to Installer file](https://slproweb.com/download/Win64OpenSSL_Light-1_1_1g.exe)
 
 During the installation, wizard will prompt where to place OpenSSL library files.\
 Since we are not going to perform any SSL development tasks on this server, select\

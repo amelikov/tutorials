@@ -291,6 +291,7 @@ That's it - you now have a self-signed certificate ready for the NGINx service.\
 We are almost there. The last thing we need to do is to change NGINx config file \
 to enable reverse proxy functionality.
 
+##### Update NGINx Configuration
 Open Windows Explorer, navigate to `C:\Program Files\nginx\conf` directory.\
 You will see a file named `nginx.conf` - that's the file we need to edit. You may want \
 to (optionally) back this file up somewhere for future reference.
@@ -373,6 +374,7 @@ save the file and start NGINx service: run `services.msc`, locate NGINx service,
 
 At this point you can try connecting to your NuGet service from a machine on your LAN.
 
+#### Final touch
 There is one more thing you would need to do if you issued a self-signed certificate.\
 Copy `cert.pem` file we created earlier to the machine where you would run Visual Studio.\
 Again, on the machine where you would run Visual Studio, run `certmgr.msc`, navigate to\

@@ -103,7 +103,7 @@ command prompt and execute:
 E:
 cd \Baget
 dotnet BaGet.dll
-
+ 
 ```
 The BaGet server will start and you will see output:
 ```
@@ -146,7 +146,7 @@ file to `c:\windows\system32`.
 pushd %userprofile%\downloads
 copy nssm.exe c:\windows\system32\
 del nssm.exe
-
+ 
 ```
 At this point we have all the bits and pieces in place, and we are ready to enable BaGet \
 as system service.
@@ -159,13 +159,13 @@ Open elevated command prompt, and execute these two commands to create BaGet ser
 pushd c:\windows\system32
 nssm install BaGet dotnet.exe baget.dll
 nssm set baget AppDirectory E:\Baget
-
+ 
 ```
 This will respectively create the system service named BaGet and set the service working \
 directory to `E:\baget`. To validate the service was created properly, you can execute:
 ````ps
 nssm edit baget
-
+ 
 ```
 from the command prompt to look at (and change if needed) advanced parameters.
 
@@ -208,7 +208,7 @@ Open elevated command prompt, end execute the following commands:
 pushd c:\windows\system32
 nssm install NGINx "c:\program files\nginx\nginx.exe"
 nssm set nginx appdirectory "c:\program files\nginx"
-
+ 
 ```
 This will create and configure NGINx system service. Don't start it yet. We now need\
 to edit NGINx configuration and make it act as a reverse proxy to our BaGet service.
@@ -229,7 +229,7 @@ you a kickstart, the procedure below will get you going:
 ##### Find out your server host name and domain name - open cmd.exe and execute:
 ```ps
 ipconfig /all
-
+ 
 ```
 the output would something like:
 ```ps
@@ -268,7 +268,7 @@ Now we need to add `C:\Program Files\OpenSSL-Win64\bin` to System Path. This ver
 to do - from elevated command prompt execute:
 ```ps
 rundll32 sysdm.cpl,EditEnvironmentVariables
-
+ 
 ```
 which will bring up the Environment Variables dialog. What we need to do now is edit the\
 Path under System Variables, append ";" and `C:\Program Files\OpenSSL-Win64\bin` to the\
@@ -384,6 +384,7 @@ http {
 		}
     }
 }
+ 
 ```
 save the file and start NGINx service: run `services.msc`, locate NGINx service, click start.
 

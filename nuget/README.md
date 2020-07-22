@@ -144,6 +144,7 @@ file to `c:\windows\system32`.
 ```ps
 pushd %userprofile%\downloads
 copy nssm.exe c:\windows\system32\
+del nssm.exe
 
 ```
 At this point we have all the bits and pieces in place, and we are ready to enable BaGet \

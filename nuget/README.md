@@ -220,7 +220,7 @@ There are number of ways to create a self-signed certificate, as well as obtaini
 real certificate from well-known Certification Authorities, or locally managed CAs.
 
 If you happen to have a real CA certificate issued for your server, rename the PEM \
-certificate to `cert.pem`, rename private key to `cert.key` and then copy both files \
+certificate to `cert.crt`, rename private key to `cert.key` and then copy both files \
 to `c:\program files\nginx\conf` directory.
 
 The process of issuing certificate is outside of this tutorial scope, however, to give\
@@ -299,7 +299,7 @@ openssl req -x509 -nodes -days 3650 ^
  -subj "/CN=%sfqdn%" ^
  -addext "subjectAltName = DNS.1:%shost%,DNS.2:%sfqdn%,IP.1:127.0.0.1,IP.2:%sip%" ^
  -addext "extendedKeyUsage = serverAuth" ^
- -newkey rsa:2048 -keyout cert.key -out cert.pem
+ -newkey rsa:2048 -keyout cert.key -out cert.crt
  
 ```
 That's it - you now have a self-signed certificate ready for the NGINx service.\
@@ -370,7 +370,7 @@ http {
 		proxy_set_header     X-Forwarded-Proto $scheme;
 		proxy_set_header     X-Forwarded-SSL on;
 
-        ssl_certificate      cert.pem;
+        ssl_certificate      cert.crt;
         ssl_certificate_key  cert.key;
 
         ssl_session_cache    shared:SSL:1m;
@@ -392,12 +392,12 @@ At this point you can try connecting to your NuGet service from a machine on you
 
 ### Final touch
 There is one more thing you would need to do if you issued a self-signed certificate.\
-Copy `cert.pem` file we created earlier to the machine where you would run Visual Studio.\
+Copy `cert.crt` file we created earlier to the machine where you would run Visual Studio.\
 Again, on the machine where you would run Visual Studio, run `certmgr.msc`, navigate to\
 `Trusted Root Certification Authorities`, expand it, then right-click `certificates`.\
 In the context menu select `All Tasks` and click `Import`. This will display a File Open Dialog.\
 Change file type to `All Files (*.*)` then navigate to the directory where you have copied\
-`cert.pem` file, select it, and complete the import procedure.
+`cert.crt` file, select it, and complete the import procedure.
 
 You can now point web browser on that machine to `https://ip-of-nuget-machine` and it\
 would show no security warnings.

@@ -11,3 +11,4 @@ begin
    if c=20 then
     raise Ebbb.create;
 end;
+```

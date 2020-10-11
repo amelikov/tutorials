@@ -171,7 +171,7 @@ from the command prompt to look at (and change if needed) advanced parameters.
 
 ![1](./images/vmrc_g0itsw8DOU.png) ![2](./images/vmrc_Tn6eIjfgId.png)
 
-You may consider changing the service description to identify it later.\
+You may consider changing the service description to easily identify it later.\
 When done with changes (on any of the tabs), click [**Edit Service**] button to apply.\
 *This is a little confusing, but nevertheless, Edit Service button commits the changes*.
 
@@ -190,7 +190,7 @@ The NGINx was chosen here because I used it for my deployment, and it is proven\
 to be lightning fast reverse proxy with very small memory footprint.
 
 #### Download and Install NGINx
-NGINx (pronounced 'engine X') is an open source software available for download on\
+NGINx (pronounced 'engine X') is an open source software available for download at\
 [NGINx Website](https://nginx.org) free of charge. At the time of composing this article, the current Stable \
 release of NGINx for Windows was 1.18 with a download link at:\
 [https://nginx.org/download/nginx-1.18.0.zip](https://nginx.org/download/nginx-1.18.0.zip)
@@ -213,7 +213,7 @@ nssm set nginx appdirectory "c:\program files\nginx"
 This will create and configure NGINx system service. Don't start it yet. We now need\
 to edit NGINx configuration and make it act as a reverse proxy to our BaGet service.
 
-First thing we need to do is create a ssl certificate. This certificate has to be trusted\
+First thing we need to do is to create ssl certificate. This certificate has to be trusted\
 on the client machines that would access our NuGet server.
 
 There are number of ways to create a self-signed certificate, as well as obtaining a \
@@ -224,14 +224,14 @@ certificate to `cert.crt`, rename private key to `cert.key` and then copy both f
 to `c:\program files\nginx\conf` directory.
 
 The process of issuing certificate is outside of this tutorial scope, however, to give\
-you a kickstart, the procedure below will get you going:
+you a kickstart, the procedure below will get you going with a self-signed certificate:
 
-##### Find out your server host name and domain name - open cmd.exe and execute:
+##### Identify host name and domain name of your server - open cmd.exe and execute:
 ```ps
 ipconfig /all
  
 ```
-the output would something like:
+the output would look similar to:
 ```ps
 Windows IP Configuration
 
@@ -253,18 +253,18 @@ To issue a new self-signed certificate we will use OpenSSL. Let's get it install
 OpenSSL for windows requires Visual C++ 2017 runtime. Download and install \
 the VC 2017 runtime binaries from: [Microsoft direct link](https://download.visualstudio.microsoft.com/download/pr/4100b84d-1b4d-487d-9f89-1354a7138c8f/5B0CBB977F2F5253B1EBE5C9D30EDBDA35DBD68FB70DE7AF5FAAC6423DB575B5/VC_redist.x64.exe)
 
-Prebuilt OpenSSL for Windows binaries available free at [Shining Light Productions](https://slproweb.com/products/Win32OpenSSL.html)\
+Prebuilt OpenSSL binaries for Windows are available free at [Shining Light Productions](https://slproweb.com/products/Win32OpenSSL.html)\
 website. Download and run 64 bit version installer: [direct link to Installer file](https://slproweb.com/download/Win64OpenSSL_Light-1_1_1g.exe)
 
-During the installation, wizard will prompt where to place OpenSSL library files.\
+During the installation, wizard will ask where to place OpenSSL library files.\
 Since we are not going to perform any SSL development tasks on this server, select\
 `Open SSL Binaries (/bin) Directory` as shown below:
 
 ![3](./images/vmrc_7TA7fnXThL.png)\
-and let the wizard finish installation.
+and let the wizard to complete the installation.
 
-##### Add OpenSSL direcotry to system path
-Now we need to add `C:\Program Files\OpenSSL-Win64\bin` to System Path. This very easy \
+##### Add OpenSSL direcotry to system search path
+Now we need to add `C:\Program Files\OpenSSL-Win64\bin` to System Search Path. This very easy \
 to do - from elevated command prompt execute:
 ```ps
 rundll32 sysdm.cpl,EditEnvironmentVariables
@@ -282,11 +282,11 @@ three elements captured from `ipconfig /all` earlier. These elements are `Host N
 
 **IMPORTANT**: The System Path change ***is not visible*** to already open `cmd.exe` windows.\
 To make sure the next step would work correctly, you would need to close the command \
-line windows and open new instances. This will ensure OpenSSL executable and libraries\
+prompt window and open new instance. This will ensure OpenSSL executable and libraries\
 are available to the command line.
 
 ##### Generate self-signed certificate
-Replace *shost*, *sdomain*, and *sip* in the **set** commands below with values captured from \
+Replace *shost*, *sdomain*, and *sip* values in the **set** commands below with the values captured from \
 `ipconfig /all` command; use notepad to copy paste and edit the commands, then copy all,\
 open elevated command prompt, navigate to `C:\Program Files\nginx\conf` and paste/execute commands:
 ```ps
@@ -404,6 +404,3 @@ would show no security warnings.
 
 If your DNS functioning correctly, you can also use full machine name that you captured\
 from `ipconfig /all` command on BaGet server instead of the IP address.
-
-
-
